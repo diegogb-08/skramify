@@ -1,7 +1,13 @@
 import '../styles/tailwind.css'
 import 'tailwindcss/tailwind.css'
 import type { AppProps } from 'next/app'
-import { isMobile } from 'react-device-detect';
+import {
+  RecoilRoot,
+  atom,
+  selector,
+  useRecoilState,
+  useRecoilValue,
+} from 'recoil';
 
 import Menu from '../components/menu/Menu';
 
@@ -17,8 +23,10 @@ function MyApp({ Component, pageProps }: AppProps) {
         typeof window !== 'undefined' ? window.location.origin : ''
       }
     >
-      <Menu isMobile={isMobile} />
-      <Component {...pageProps} />
+      <RecoilRoot>
+        <Menu />
+        <Component {...pageProps} />
+      </RecoilRoot>
     </Auth0Provider>
   )
 }
