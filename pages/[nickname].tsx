@@ -1,9 +1,8 @@
+import { useRouter } from 'next/router'
 
-export type HomePage = {
-  nickname: string
-}
-
-const HomePage = ({ nickname }: HomePage) => {
+const HomePage = () => {
+  const router = useRouter()
+  const { nickname } = router.query
   return (
     <div>
       This is the HomePage {nickname}

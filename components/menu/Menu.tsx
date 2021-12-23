@@ -1,4 +1,5 @@
 import { useAuth0 } from '@auth0/auth0-react';
+import AuthenticationButton from '../button/AuthenticationButton';
 
 export type Menu = {
   isMobile: boolean
@@ -6,33 +7,29 @@ export type Menu = {
 
 const Menu = ({ isMobile }: Menu) => {
   const {
-    isLoading,
     isAuthenticated,
-    error,
     user,
     loginWithRedirect,
     logout,
   } = useAuth0();
 
-  console.log(user)
-
-  if (isAuthenticated) {
-    return (
-      <div>
-        Hello {user?.name}{' '}
-        <button onClick={() => logout({ returnTo: window.location.origin })}>
-          Log out
-        </button>
+  return (
+    <div className='container w-full h-12'>
+      <div className='bg-blue-400 w-full h-full flex justify-end items-center pr-4'>
+        {
+          isAuthenticated ?
+            <div>
+              Hello {user?.nickname}
+              <AuthenticationButton onClick={() => logout({ returnTo: window.location.origin })} text='Log out' />
+            </div>
+            :
+            <div>
+              <AuthenticationButton onClick={loginWithRedirect} text='Log in' />
+            </div>
+        }
       </div>
-    );
-  } else {
-
-    return (
-      <div>
-        <button onClick={loginWithRedirect}>Log in</button>
-      </div>
-    )
-  }
+    </div>
+  )
 }
 
 export default Menu
