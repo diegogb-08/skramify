@@ -1,7 +1,7 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import * as React from 'react';
 
-const AuthenticationError = () => {
+const Landing = () => {
   const { isAuthenticated, isLoading, user } = useAuth0();
   React.useEffect(() => {
     if (isAuthenticated && !isLoading) {
@@ -15,5 +15,5 @@ const AuthenticationError = () => {
   );
 };
 
-export default AuthenticationError;
+export default Landing;
 

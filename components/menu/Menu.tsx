@@ -1,4 +1,6 @@
 import { useAuth0 } from '@auth0/auth0-react';
+import { useRecoilState } from 'recoil';
+import { modalState } from '../../recoil/atoms';
 import AuthenticationButton from '../button/AuthenticationButton';
 
 
@@ -9,15 +11,20 @@ const Menu = () => {
     loginWithRedirect,
     logout,
   } = useAuth0();
+  const [modalIsOpen, setModalIsOpen] = useRecoilState(modalState)
 
   const handleClick = () => {
-
+    setModalIsOpen(true)
   }
 
   return (
     <div className='container bg-sky-700 max-w-full flex justify-between h-16 overflow-hidden'>
       <div className='h-full w-1/5 flex justify-between items-center p-2 text-white font-bold'>
-        <button className='bg-sky-900 hover:bg-sky-800 px-4 py-2 rounded' onClick={handleClick} children={'Create'} />
+        {
+          isAuthenticated &&
+          <button className='bg-sky-900 hover:bg-sky-800 px-4 py-2 rounded' onClick={handleClick} children={'Create'} />
+
+        }
       </div>
       <div className='h-full w-1/5 flex justify-between items-center p-2 text-white font-bold'>
         {
@@ -28,7 +35,10 @@ const Menu = () => {
               <AuthenticationButton onClick={() => logout({ returnTo: window.location.origin })} text='Log out' />
             </>
             :
-            <AuthenticationButton onClick={loginWithRedirect} text='Log in' />
+            <>
+              <div />
+              <AuthenticationButton onClick={loginWithRedirect} text='Log in' />
+            </>
         }
       </div>
     </div>
