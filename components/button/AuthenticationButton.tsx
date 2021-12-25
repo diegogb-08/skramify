@@ -6,7 +6,7 @@ interface AuthenticationButton {
 const AuthenticationButton = ({ onClick, text }: AuthenticationButton) => {
   return <button
     onClick={onClick}
-    className='text-white font-bold p-4'
+    className='text-white font-bold px-4 py-2 bg-red-600 rounded hover:bg-red-800'
     children={text}
   />
 }
