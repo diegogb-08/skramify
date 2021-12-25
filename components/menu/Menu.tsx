@@ -1,11 +1,8 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import AuthenticationButton from '../button/AuthenticationButton';
 
-export type Menu = {
-  isMobile?: boolean
-}
 
-const Menu = ({ isMobile }: Menu) => {
+const Menu = () => {
   const {
     isAuthenticated,
     user,
@@ -13,9 +10,16 @@ const Menu = ({ isMobile }: Menu) => {
     logout,
   } = useAuth0();
 
+  const handleClick = () => {
+
+  }
+
   return (
-    <div className='container max-w-full h-16 overflow-hidden'>
-      <div className='bg-blue-400 w-full h-full flex justify-end items-center p-2'>
+    <div className='container bg-sky-700 max-w-full flex justify-between h-16 overflow-hidden'>
+      <div className='h-full w-1/5 flex justify-between items-center p-2 text-white font-bold'>
+        <button className='bg-sky-900 hover:bg-sky-800 px-4 py-2 rounded' onClick={handleClick} children={'Create'} />
+      </div>
+      <div className='h-full w-1/5 flex justify-between items-center p-2 text-white font-bold'>
         {
           isAuthenticated ?
             <>

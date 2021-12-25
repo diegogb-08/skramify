@@ -3,10 +3,6 @@ import 'tailwindcss/tailwind.css'
 import type { AppProps } from 'next/app'
 import {
   RecoilRoot,
-  atom,
-  selector,
-  useRecoilState,
-  useRecoilValue,
 } from 'recoil';
 
 import Menu from '../components/menu/Menu';
