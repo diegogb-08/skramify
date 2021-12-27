@@ -1,5 +1,6 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import * as React from 'react';
+import Menu from '../components/menu/Menu';
 
 const Landing = () => {
   const { isAuthenticated, isLoading, user } = useAuth0();
@@ -9,9 +10,11 @@ const Landing = () => {
     }
   }, [isAuthenticated, isLoading]);
   return (
-    <div className="max-w-md p-4 m-8 block text-center right-0 ml-auto mr-auto">
-      Login required!
-    </div>
+    <Menu>
+      <div className="max-w-md p-4 m-8 block text-center right-0 ml-auto mr-auto">
+        Login required!
+      </div>
+    </Menu>
   );
 };
 

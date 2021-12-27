@@ -20,7 +20,6 @@ function MyApp({ Component, pageProps }: AppProps) {
       }
     >
       <RecoilRoot>
-        <Menu />
         <Component {...pageProps} />
       </RecoilRoot>
     </Auth0Provider>
