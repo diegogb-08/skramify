@@ -2,9 +2,33 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300&display=swap');
+
 body {
   background-color: rgb(249 250 251 / 1);
   font-family: Roboto, Calibri, sans-serif;
   font-weight: 300;
-  height: 100vh;
+}
+
+html,
+body,
+body > div:first-child,
+div#__next {
+  height: 92.5vh;
+}
+
+.svg-icon {
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.svg-icon path,
+.svg-icon polygon,
+.svg-icon rect {
+  fill: #4691f6;
+}
+
+.svg-icon circle {
+  stroke: #4691f6;
+  stroke-width: 1;
 }
