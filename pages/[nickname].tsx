@@ -7,6 +7,7 @@ import { modalState } from '../recoil/atoms'
 import { useState } from 'react'
 import Dialog from '../components/modal/Dialog'
 import { BoardColumn } from '../types'
+import CreateTask from '../components/CreateTask'
 
 const initialScrumbBoardState = [
   {
@@ -34,7 +35,6 @@ const HomePage = () => {
   const { nickname } = router.query
   const [scrumBoard, setScrumBoard] = useState<BoardColumn[]>(initialScrumbBoardState)
   const [modalIsOpen, setModalIsOpen] = useState(false)
-  const columnSize = 6 / scrumBoard.length
 
   const handleClickCreate = () => {
     setModalIsOpen(true)
@@ -49,7 +49,7 @@ const HomePage = () => {
   return (
     <Menu onClickCreate={handleClickCreate}>
       <Dialog isOpen={modalIsOpen} onRequestClose={handleClickClose} title={'TITLE'}>
-        MODAL IS OPEN AGAIN
+        <CreateTask />
       </Dialog>
       <div className='max-w-full h-full flex justify-center bg-gray-50 p-4'>
         {
