@@ -1,14 +1,16 @@
 export type BoardColumn = {
   id: string,
   description: string,
-  tasks: taksCard[]
+  tasks: taskCard[]
 }
 
-export type taksCard = {
+export type taskCard = {
   id: string,
   title: string,
   createdAt: string,
-  dateTime: string,
+  dueDate: string,
   description: string,
-  comments: any[]
+  comments: any[],
+  cardType: 'bug' | 'epic' | 'task',
+  priority: 'major' | 'blocker' | 'minor' | 'critical' | 'trivial'
 }
