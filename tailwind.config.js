@@ -6,9 +6,9 @@ module.exports = {
   darkMode: 'media', // or 'media' or 'class'
   theme: {
     fontFamily: {
-      sans: ['Roboto', 'Helvetica', 'Arial', 'sans-serif'],
+      display: ['Inter', 'system-ui', 'sans-serif'],
+      body: ['Inter', 'system-ui', 'sans-serif'],
     },
-    extend: {},
   },
   variants: {
     extend: {
