@@ -1,16 +1,30 @@
 export type BoardColumn = {
   id: string,
   description: string,
-  tasks: taskCard[]
+  tasks: TaskCard[]
 }
 
-export type taskCard = {
-  id: string,
-  title: string,
-  createdAt: string,
-  dueDate: string,
-  description: string,
-  comments: any[],
-  cardType: 'bug' | 'epic' | 'task',
-  priority: 'major' | 'blocker' | 'minor' | 'critical' | 'trivial'
+export type TaskCard = {
+  id?: string,
+  title?: string,
+  createdAt?: string,
+  dueDate?: string,
+  description?: string,
+  comments?: any[],
+  cardType?: CardType,
+  priority?: Priority
+}
+
+export enum CardType {
+  bug = 'bug',
+  epic = 'epic',
+  task = 'task'
+}
+
+export enum Priority {
+  major = 'major',
+  blocker = 'blocker',
+  minor = 'minor',
+  critical = 'critical',
+  trivial = 'trivial'
 }
