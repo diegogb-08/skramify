@@ -1,6 +1,6 @@
 import useForm from "../hooks/useForm"
 import { CardType, Priority } from "../types"
-import EditorForm from "./form/EditorForm"
+import EditorForm from "./form/editor/EditorForm"
 import InputForm from "./form/InputForm"
 import SelectForm from "./form/SelectForm"
 
