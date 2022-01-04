@@ -21,7 +21,7 @@ export const CustomEditorHelper = {
 
   isCodeBlockActive(editor: CustomEditor) {
     const [match] = Editor.nodes(editor, {
-      match: n => n.type === 'code',
+      match: (n: any) => n.type === 'code',
     })
 
     return !!match
