@@ -1,14 +1,18 @@
 import useForm from "../hooks/useForm"
 import { CardType, Priority } from "../types"
+import { CustomElement } from "./editor/editor.types"
 import EditorForm from "./form/EditorForm"
 import InputForm from "./form/InputForm"
 import SelectForm from "./form/SelectForm"
 
-
+export const initialEditorValue: CustomElement[] = [{
+  type: 'paragraph',
+  children: [{ text: '' }],
+}]
 
 const initialFormState = {
   title: '',
-  description: '',
+  description: initialEditorValue,
   dueDate: '',
   comments: [],
   cardType: CardType.task,
@@ -16,7 +20,9 @@ const initialFormState = {
 }
 
 const CreateTask = () => {
-  const { formState, handleChange } = useForm({ initialFormState })
+  const { formState, handleChange, handleChangeEditor } = useForm({ initialFormState })
+
+
 
   return (
     <div style={{ minWidth: '40rem' }} className='flex flex-col mt-4'>
@@ -39,7 +45,7 @@ const CreateTask = () => {
           onChange={handleChange}
           value={formState?.cardType!}
         />
-        <InputForm
+        {/* <InputForm
           title='Description*'
           type='text'
           value={formState?.description}
@@ -48,7 +54,7 @@ const CreateTask = () => {
           hasError={false}
           onChange={handleChange}
           placeholder='Add description'
-        />
+        /> */}
         <SelectForm
           title='Priority'
           name='priority'
@@ -56,7 +62,12 @@ const CreateTask = () => {
           onChange={handleChange}
           value={formState?.priority!}
         />
-        <EditorForm title='Editor' />
+        <EditorForm
+          onChangeEditor={handleChangeEditor}
+          value={formState.description!}
+          name='description'
+          title='description*'
+        />
       </form>
     </div>
   )

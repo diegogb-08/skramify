@@ -1,15 +1,11 @@
-import { KeyboardEvent, useCallback, useMemo } from "react"
-import { createEditor } from "slate"
-import { withReact } from "slate-react"
+import { KeyboardEvent } from "react"
 import { CustomEditor } from "../components/editor/editor.types";
-import { CodeElement, CustomEditorHelper, DefaultElement, Leaf } from "../components/editor/Elements"
-import { isFormatActive } from '../components/editor/util';
+import { CustomEditorHelper } from '../components/editor/util';
 const { toggleBoldMark, toggleCodeBlock, toggleItalicMark, toggleUnderlinedMark } = CustomEditorHelper
 
 const useEditor = (editor: CustomEditor) => {
 
-  const handleOnMouseDown = (ev: any, name: string) => {
-    ev.preventDefault()
+  const handleOnClickFormat = (name: string) => {
     switch (name) {
       case 'bold':
         toggleBoldMark(editor, name)
@@ -30,7 +26,6 @@ const useEditor = (editor: CustomEditor) => {
   }
 
   const handleOnKeyDown = (ev: KeyboardEvent<HTMLDivElement>) => {
-    console.log(ev.key)
     if (!ev.ctrlKey) {
       return
     }
@@ -63,7 +58,7 @@ const useEditor = (editor: CustomEditor) => {
   return {
     editor,
     handleOnKeyDown,
-    handleOnMouseDown
+    handleOnClickFormat
   }
 }
 

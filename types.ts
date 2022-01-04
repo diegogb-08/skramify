@@ -1,3 +1,5 @@
+import { Descendant } from "slate"
+
 export type BoardColumn = {
   id: string,
   description: string,
@@ -9,7 +11,7 @@ export type TaskCard = {
   title?: string,
   createdAt?: string,
   dueDate?: string,
-  description?: string,
+  description?: Descendant[],
   comments?: any[],
   cardType?: CardType,
   priority?: Priority

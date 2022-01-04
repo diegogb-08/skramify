@@ -38,58 +38,19 @@ export const Leaf = ({ attributes, children, leaf }: ElementProps) => {
   )
 }
 
-// Define our own custom set of helpers.
-export const CustomEditorHelper = {
-
-  toggleBoldMark(editor: CustomEditor, format: string) {
-    const isActive = isFormatActive(editor, format)
-    Transforms.setNodes(
-      editor,
-      { bold: isActive ? null! : true },
-      { match: n => Text.isText(n), split: true }
-    )
-  },
-
-  toggleItalicMark(editor: CustomEditor, format: string) {
-    const isActive = isFormatActive(editor, format)
-    Transforms.setNodes(
-      editor,
-      { italic: isActive ? null! : true },
-      { match: n => Text.isText(n), split: true }
-    )
-  },
-
-  toggleUnderlinedMark(editor: CustomEditor, format: string) {
-    const isActive = isFormatActive(editor, format)
-    Transforms.setNodes(
-      editor,
-      { underlined: isActive ? null! : true },
-      { match: n => Text.isText(n), split: true }
-    )
-  },
-
-  toggleCodeBlock(editor: CustomEditor, format: string) {
-    const isActive = isFormatActive(editor, format)
-    Transforms.setNodes(
-      editor,
-      { type: isActive ? null : 'code' },
-      { match: n => Editor.isBlock(editor, n) }
-    )
-  },
-}
-
 interface EditorButtonProps {
   children: ReactNode
-  onMouseDown: (ev: any, name: string) => void
+  onClickFormat: (name: string) => void
   className?: string
   isActive: boolean
   name: string
 }
 
-export const EditorButton = ({ children, onMouseDown, className, isActive, name }: EditorButtonProps) => {
+export const EditorButton = ({ children, onClickFormat, className, isActive, name }: EditorButtonProps) => {
   return <button
-    onMouseDown={(ev: any) => onMouseDown(ev, name)}
+    onClick={() => onClickFormat(name)}
     children={children}
+    type='button'
     name={name}
     className={`px-2 ml-1 my-1 hover:text-blue-400 ${isActive ? 'text-blue-500' : ''}
     ${className}`}

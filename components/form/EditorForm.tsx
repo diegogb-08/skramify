@@ -1,31 +1,25 @@
-import { ChangeEvent, CSSProperties, useCallback, useMemo, useState } from 'react';
+import { CSSProperties, useCallback, useMemo } from 'react';
 
 // Import the Slate components and React plugin.
 import { Slate, Editable, withReact } from 'slate-react'
 import { createEditor, Descendant } from 'slate'
-import { CustomElement } from '../editor/editor.types';
 import { CodeElement, DefaultElement, EditorButton, Leaf } from '../editor/Elements';
 import useEditor from '../../hooks/useEditor';
-import { isFormatActive } from '../editor/util';
-
-const initialValue: CustomElement[] = [{
-  type: 'paragraph',
-  children: [{ text: '' }],
-}]
+import { CustomEditorHelper, isFormatActive } from '../editor/util';
 
 interface EditorForm {
   title: string
-  name?: string
+  name: string
   className?: string
-  onChange?: (ev: ChangeEvent<HTMLSelectElement>) => void
+  onChangeEditor: (value: Descendant[], name: string) => void
   style?: CSSProperties
+  value: Descendant[]
 }
 
-const EditorForm = ({ title, name, className = '', onChange, style }: EditorForm) => {
+const EditorForm = ({ title, onChangeEditor, name, value }: EditorForm) => {
 
-  const [value, setValue] = useState<Descendant[]>(initialValue)
   const editor = useMemo(() => withReact(createEditor()), [])
-  const { handleOnKeyDown, handleOnMouseDown } = useEditor(editor)
+  const { handleOnKeyDown, handleOnClickFormat } = useEditor(editor)
 
   const renderElement = useCallback(props => {
     switch (props.element.type) {
@@ -47,29 +41,29 @@ const EditorForm = ({ title, name, className = '', onChange, style }: EditorForm
         <div className='w-full bg-gray-100 shadow-sm'>
           <EditorButton
             name='bold'
-            onMouseDown={handleOnMouseDown}
+            onClickFormat={handleOnClickFormat}
             isActive={isFormatActive(editor, 'bold')}
           >
             <p className='font-bold'>B</p>
           </EditorButton>
           <EditorButton
             name='italic'
-            onMouseDown={handleOnMouseDown}
+            onClickFormat={handleOnClickFormat}
             isActive={isFormatActive(editor, 'italic')}
           >
             <p className='italic'>I</p>
           </EditorButton>
           <EditorButton
             name='underlined'
-            onMouseDown={handleOnMouseDown}
+            onClickFormat={handleOnClickFormat}
             isActive={isFormatActive(editor, 'underlined')}
           >
             <p className='underline'>U</p>
           </EditorButton>
           <EditorButton
             name='code'
-            onMouseDown={handleOnMouseDown}
-            isActive={isFormatActive(editor, 'code')}
+            onClickFormat={handleOnClickFormat}
+            isActive={CustomEditorHelper.isCodeBlockActive(editor)}
           >
             <p className='italic'>{'</>'}</p>
           </EditorButton>
@@ -78,7 +72,7 @@ const EditorForm = ({ title, name, className = '', onChange, style }: EditorForm
           <Slate
             editor={editor}
             value={value}
-            onChange={newValue => setValue(newValue)}
+            onChange={(newValue) => onChangeEditor(newValue, name)}
           >
             <Editable
               renderElement={renderElement}
