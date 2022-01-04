@@ -12,8 +12,8 @@ interface ElementProps {
 // Define a React component renderer for our code blocks.
 export const CodeElement = ({ attributes, children }: ElementProps) => {
   return (
-    <pre {...attributes}>
-      <code>{children}</code>
+    <pre {...attributes} className='my-2'>
+      <code className='bg-gray-300 m-1 p-2 rounded-sm'>{children}</code>
     </pre>
   )
 }
@@ -40,31 +40,6 @@ export const Leaf = ({ attributes, children, leaf }: ElementProps) => {
 
 // Define our own custom set of helpers.
 export const CustomEditorHelper = {
-  // isBoldMarkActive(editor: CustomEditor) {
-  //   const [match] = Editor.nodes(editor, {
-  //     match: n => n.bold === true,
-  //     universal: true,
-  //   })
-
-  //   return !!match
-  // },
-
-  // isItalicMarkActive(editor: CustomEditor) {
-  //   const [match] = Editor.nodes(editor, {
-  //     match: n => n.italic === true,
-  //     universal: true,
-  //   })
-
-  //   return !!match
-  // },
-
-  // isCodeBlockActive(editor: CustomEditor) {
-  //   const [match] = Editor.nodes(editor, {
-  //     match: n => n.type === 'code',
-  //   })
-
-  //   return !!match
-  // },
 
   toggleBoldMark(editor: CustomEditor, format: string) {
     const isActive = isFormatActive(editor, format)
