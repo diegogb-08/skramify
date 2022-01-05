@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import Menu from '../components/menu/Menu'
 import useCheckAuthentication from '../hooks/useCheckAuthentication'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Dialog from '../components/modal/Dialog'
 import { BoardColumn } from '../types'
 import CreateTask from '../components/CreateTask'
@@ -32,10 +32,9 @@ const initialScrumbBoardState = [
 const HomePage = () => {
   useCheckAuthentication()
   const router = useRouter()
-  const { nickname } = router.query
   const [scrumBoard, setScrumBoard] = useState<BoardColumn[]>(initialScrumbBoardState)
   const [modalIsOpen, setModalIsOpen] = useState(false)
-  const board = useRecoilValue(boardAtom)
+
 
   const handleClickCreate = () => {
     setModalIsOpen(true)
@@ -45,7 +44,6 @@ const HomePage = () => {
     setModalIsOpen(false)
   }
 
-  console.log({ board })
 
   return (
     <Menu onClickCreate={handleClickCreate}>

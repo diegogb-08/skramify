@@ -3,12 +3,12 @@ import * as React from 'react';
 import Menu from '../components/menu/Menu';
 
 const Landing = () => {
-  const { isAuthenticated, isLoading, user } = useAuth0();
+  const { isAuthenticated } = useAuth0();
   React.useEffect(() => {
-    if (isAuthenticated && !isLoading) {
-      window.location.href = `/${user?.nickname}`;
+    if (isAuthenticated) {
+      window.location.href = '/board';
     }
-  }, [isAuthenticated, isLoading]);
+  }, [isAuthenticated]);
   return (
     <Menu>
       <div className="max-w-md p-4 m-8 block text-center right-0 ml-auto mr-auto">
