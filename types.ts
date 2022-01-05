@@ -6,6 +6,12 @@ export type BoardColumn = {
   tasks: TaskCard[]
 }
 
+export type Board = {
+  backlog: TaskCard[]
+  inProgress: TaskCard[],
+  done: TaskCard[]
+}
+
 export type TaskCard = {
   id?: string,
   title?: string,

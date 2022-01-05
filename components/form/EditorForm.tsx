@@ -1,7 +1,7 @@
 import { CSSProperties, useCallback, useMemo } from 'react';
 
 // Import the Slate components and React plugin.
-import { Slate, Editable, withReact } from 'slate-react'
+import { Slate, Editable, withReact, ReactEditor } from 'slate-react'
 import { createEditor, Descendant } from 'slate'
 import { CodeElement, DefaultElement, EditorButton, Leaf } from '../editor/Elements';
 import useEditor from '../../hooks/useEditor';
@@ -68,7 +68,10 @@ const EditorForm = ({ title, onChangeEditor, name, value }: EditorForm) => {
             <p className='italic'>{'</>'}</p>
           </EditorButton>
         </div>
-        <div className='w-full h-96 focus:ring-2 focus:ring-blue-500 focus:outline-none text-sm leading-6 text-gray-900 placeholder-gray-400 rounded-b-md py-2 pl-4 ring-1 ring-gray-200 shadow-sm'>
+        <div
+          className='w-full h-96 focus:ring-2 cursor-text focus:ring-blue-500 focus:outline-none text-sm leading-6 text-gray-900 placeholder-gray-400 rounded-b-md py-2 pl-4 ring-1 ring-gray-200 shadow-sm'
+          onClick={() => ReactEditor.focus(editor)}
+        >
           <Slate
             editor={editor}
             value={value}
