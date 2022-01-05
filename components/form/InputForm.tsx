@@ -10,9 +10,10 @@ interface InputForm {
   style?: CSSProperties
   hasError: boolean
   placeholder?: string
+  required?: boolean
 }
 
-const InputForm = ({ title, type, name, className = '', value, onChange, style, hasError = false, placeholder }: InputForm) => {
+const InputForm = ({ title, type, name, className = '', value, onChange, style, hasError = false, placeholder, required }: InputForm) => {
   return (
     <div className='flex items-center mt-10'>
       <p className='font-bold text-gray-500 w-40 text-right'>{title}</p>
@@ -27,6 +28,7 @@ const InputForm = ({ title, type, name, className = '', value, onChange, style, 
         value={value}
         onChange={onChange}
         style={style}
+        required={required}
       />
     </div>
   )

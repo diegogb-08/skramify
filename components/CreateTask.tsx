@@ -1,7 +1,7 @@
 import { FormEvent } from "react"
 import useForm from "../hooks/useForm"
 import useRecoilLocalStorageState from "../hooks/useRecoilLocalStorageState"
-import { CardType, Priority } from "../types"
+import { CardType, Priority, TaskCard } from "../types"
 import Discard from "./button/Discard"
 import Submit from "./button/Submit"
 import { CustomElement } from "./editor/editor.types"
@@ -9,6 +9,7 @@ import EditorForm from "./form/EditorForm"
 import InputForm from "./form/InputForm"
 import SelectForm from "./form/SelectForm"
 import { board as boardAtom } from '../recoil/atoms'
+import { cloneDeep } from "lodash"
 
 export const initialEditorValue: CustomElement[] = [{
   type: 'paragraph',
@@ -16,6 +17,7 @@ export const initialEditorValue: CustomElement[] = [{
 }]
 
 const initialFormState = {
+  id: '',
   title: '',
   description: initialEditorValue,
   dueDate: '',
@@ -25,17 +27,20 @@ const initialFormState = {
 }
 
 interface CreateTaskProps {
-  onClickDiscard: () => void
+  onClose: () => void
 }
-const CreateTask = ({ onClickDiscard }: CreateTaskProps) => {
+const CreateTask = ({ onClose }: CreateTaskProps) => {
   const { formState, handleChange, handleChangeEditor } = useForm({ initialFormState })
   const { state: board, setState: setBoard } = useRecoilLocalStorageState({ key: 'boardState', atom: boardAtom })
 
   const handleSubmit = (ev: FormEvent<HTMLFormElement>) => {
     ev.preventDefault()
+    const newBacklog: TaskCard[] = cloneDeep(board.backlog)
+    newBacklog.push(formState)
     setBoard(Object.assign({}, board, {
-      ['backlog']: formState
+      ['backlog']: newBacklog
     }))
+    onClose()
   }
 
   return (
@@ -46,11 +51,11 @@ const CreateTask = ({ onClickDiscard }: CreateTaskProps) => {
           title='Summary*'
           type='text'
           value={formState?.title}
-          className=''
           name='title'
           hasError={false}
           onChange={handleChange}
           placeholder='Add Title'
+          required
         />
         <SelectForm
           title='Card Type'
@@ -60,7 +65,7 @@ const CreateTask = ({ onClickDiscard }: CreateTaskProps) => {
           value={formState?.cardType!}
         />
         <EditorForm
-          title='Description*'
+          title='Description'
           name='description'
           onChangeEditor={handleChangeEditor}
           value={formState.description!}
@@ -72,9 +77,19 @@ const CreateTask = ({ onClickDiscard }: CreateTaskProps) => {
           onChange={handleChange}
           value={formState?.priority!}
         />
+        <InputForm
+          title='Due date'
+          type='date'
+          value={formState?.dueDate}
+          className='w-3/12'
+          name='dueDate'
+          hasError={false}
+          onChange={handleChange}
+          placeholder='Add due date'
+        />
         <div className='w-full flex flex-row justify-between mt-10'>
           <Discard
-            onClick={onClickDiscard}
+            onClick={onClose}
           >
             <p>Discard</p>
           </Discard>

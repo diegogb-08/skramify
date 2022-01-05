@@ -23,7 +23,7 @@ const useForm = ({ initialFormState }: UseForm) => {
     console.debug({ formState })
   }, [formState])
 
-  return { formState, handleChange, handleChangeEditor }
+  return { formState, setFormState, handleChange, handleChangeEditor }
 }
 
 export default useForm;

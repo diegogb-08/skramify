@@ -50,7 +50,7 @@ const HomePage = () => {
   return (
     <Menu onClickCreate={handleClickCreate}>
       <Dialog isOpen={modalIsOpen} onRequestClose={handleClickClose} title={'TITLE'}>
-        <CreateTask onClickDiscard={handleClickClose} />
+        <CreateTask onClose={handleClickClose} />
       </Dialog>
       <div className='max-w-full h-full flex justify-center bg-gray-50 p-4'>
         {

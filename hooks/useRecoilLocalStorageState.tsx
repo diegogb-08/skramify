@@ -10,7 +10,7 @@ import { RecoilState, useRecoilState } from "recoil"
 
 interface useRecoilLocalStorageStateProps {
   key: string
-  atom: RecoilState<() => any>
+  atom: RecoilState<any>
 }
 
 const useRecoilLocalStorageState = ({ key, atom }: useRecoilLocalStorageStateProps) => {
