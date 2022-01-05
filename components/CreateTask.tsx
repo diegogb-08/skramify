@@ -24,7 +24,8 @@ const initialFormState = {
   dueDate: '',
   comments: [],
   cardType: CardType.task,
-  priority: Priority.major
+  priority: Priority.major,
+  createdAt: new Date().toISOString()
 }
 
 interface CreateTaskProps {

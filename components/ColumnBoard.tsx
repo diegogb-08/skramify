@@ -16,7 +16,17 @@ const ColumnBoard = ({ description, tasks }: ColumbnBoardProps) => {
       <div className='bg-gray-200 w-full h-full'>
         {
           tasks.map(task => {
-            return <CardTask />
+            return <CardTask
+              key={task.id}
+              id={task.id}
+              title={task.title}
+              cardType={task.cardType}
+              comments={task.comments}
+              createdAt={task.createdAt}
+              description={task.description}
+              dueDate={task.dueDate}
+              priority={task.priority}
+            />
           })
         }
       </div>
