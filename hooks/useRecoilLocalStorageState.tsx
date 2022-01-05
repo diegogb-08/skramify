@@ -8,7 +8,7 @@
 import { useEffect, useRef } from "react"
 import { RecoilState, useRecoilState } from "recoil"
 
-interface useRecoilLocalStorageStateProps {
+export interface useRecoilLocalStorageStateProps {
   key: string
   atom: RecoilState<any>
 }

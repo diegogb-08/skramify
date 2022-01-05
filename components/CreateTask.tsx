@@ -1,4 +1,4 @@
-import { FormEvent } from "react"
+import { FormEvent, useEffect } from "react"
 import useForm from "../hooks/useForm"
 import useRecoilLocalStorageState from "../hooks/useRecoilLocalStorageState"
 import { CardType, Priority, TaskCard } from "../types"
@@ -10,6 +10,7 @@ import InputForm from "./form/InputForm"
 import SelectForm from "./form/SelectForm"
 import { board as boardAtom } from '../recoil/atoms'
 import { cloneDeep } from "lodash"
+import useRecoilLocalStorageValue from "../hooks/useUpdateLocalStorage"
 
 export const initialEditorValue: CustomElement[] = [{
   type: 'paragraph',
@@ -32,6 +33,7 @@ interface CreateTaskProps {
 const CreateTask = ({ onClose }: CreateTaskProps) => {
   const { formState, handleChange, handleChangeEditor } = useForm({ initialFormState })
   const { state: board, setState: setBoard } = useRecoilLocalStorageState({ key: 'boardState', atom: boardAtom })
+  useRecoilLocalStorageValue({ key: 'boardState', atom: boardAtom })
 
   const handleSubmit = (ev: FormEvent<HTMLFormElement>) => {
     ev.preventDefault()
