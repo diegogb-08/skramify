@@ -1,7 +1,7 @@
 import { FormEvent, useEffect } from "react"
 import useForm from "../hooks/useForm"
 import useRecoilLocalStorageState from "../hooks/useRecoilLocalStorageState"
-import { CardType, Priority, TaskCard } from "../types"
+import { BoardColumn, CardType, Priority, TaskCard } from "../types"
 import Discard from "./button/Discard"
 import Submit from "./button/Submit"
 import { CustomElement } from "./editor/editor.types"
@@ -10,7 +10,7 @@ import InputForm from "./form/InputForm"
 import SelectForm from "./form/SelectForm"
 import { board as boardAtom } from '../recoil/atoms'
 import { cloneDeep } from "lodash"
-import useRecoilLocalStorageValue from "../hooks/useUpdateLocalStorage"
+import useAssignTaskId from "../hooks/useAssignTaskId"
 
 export const initialEditorValue: CustomElement[] = [{
   type: 'paragraph',
@@ -31,17 +31,24 @@ interface CreateTaskProps {
   onClose: () => void
 }
 const CreateTask = ({ onClose }: CreateTaskProps) => {
-  const { formState, handleChange, handleChangeEditor } = useForm({ initialFormState })
-  const { state: board, setState: setBoard } = useRecoilLocalStorageState({ key: 'boardState', atom: boardAtom })
-  useRecoilLocalStorageValue({ key: 'boardState', atom: boardAtom })
+  const { formState, setFormState, handleChange, handleChangeEditor } = useForm({ initialFormState })
+  const { state: board, setState: setBoard } = useRecoilLocalStorageState({ key: boardAtom.key, atom: boardAtom })
+  useAssignTaskId({ key: 'counter', setId: setFormState })
 
   const handleSubmit = (ev: FormEvent<HTMLFormElement>) => {
     ev.preventDefault()
-    const newBacklog: TaskCard[] = cloneDeep(board.backlog)
-    newBacklog.push(formState)
-    setBoard(Object.assign({}, board, {
-      ['backlog']: newBacklog
-    }))
+    const scrumBoard: BoardColumn[] = cloneDeep(board)
+    const newBoard = scrumBoard.map(column => {
+      const oldTasks = column.tasks
+      if (column.id === 'backlog') {
+        return {
+          ...column,
+          tasks: [...oldTasks, formState]
+        }
+      }
+      return column
+    })
+    setBoard(newBoard)
     onClose()
   }
 

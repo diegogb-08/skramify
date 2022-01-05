@@ -1,40 +1,18 @@
-import { nanoid } from 'nanoid'
-import { useRouter } from 'next/router'
-import { useRecoilState, useRecoilValue } from 'recoil'
 import Menu from '../components/menu/Menu'
 import useCheckAuthentication from '../hooks/useCheckAuthentication'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import Dialog from '../components/modal/Dialog'
 import { BoardColumn } from '../types'
 import CreateTask from '../components/CreateTask'
 import { board as boardAtom } from '../recoil/atoms'
-
-const initialScrumbBoardState = [
-  {
-    id: nanoid(),
-    description: 'Backlog',
-    tasks: []
-  },
-  {
-    id: nanoid(),
-    description: 'In Progress',
-    tasks: []
-  },
-  {
-    id: nanoid(),
-    description: 'Done',
-    tasks: []
-  }
-]
-
+import useRecoilLocalStorageValue from '../hooks/useUpdateLocalStorage'
+import ColumnBoard from '../components/ColumnBoard'
 
 
 const HomePage = () => {
   useCheckAuthentication()
-  const router = useRouter()
-  const [scrumBoard, setScrumBoard] = useState<BoardColumn[]>(initialScrumbBoardState)
+  const scrumBoard: BoardColumn[] = useRecoilLocalStorageValue({ key: boardAtom.key, atom: boardAtom })
   const [modalIsOpen, setModalIsOpen] = useState(false)
-
 
   const handleClickCreate = () => {
     setModalIsOpen(true)
@@ -52,18 +30,8 @@ const HomePage = () => {
       </Dialog>
       <div className='max-w-full h-full flex justify-center bg-gray-50 p-4'>
         {
-          scrumBoard.map(colum => {
-            return (
-              <section key={colum.id} className={`w-full flex flex-col font-bold p-2 mx-2 rounded-t`}>
-                <header className='text-gray-600'>
-                  {colum.description.toUpperCase()}
-                </header>
-                <div className='bg-gray-200 h-2 w-full mb-2' />
-                <div className='bg-gray-200 w-full h-full'>
-
-                </div>
-              </section>
-            )
+          scrumBoard?.map(columnn => {
+            return <ColumnBoard description={columnn.description} key={columnn.id} tasks={columnn.tasks} />
           })
         }
       </div>
