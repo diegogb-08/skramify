@@ -16,7 +16,7 @@ const Menu = ({ children, onClickCreate }: MenuProps) => {
 
 
   return (
-    <div className='max-w-full h-full'>
+    <div className='max-w-full h-full flex flex-col'>
       <div className='container bg-sky-700 max-w-full flex justify-between h-16 overflow-hidden'>
         <div className='h-full w-1/5 flex justify-between items-center p-2 text-white font-bold'>
           {

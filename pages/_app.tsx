@@ -5,8 +5,6 @@ import {
   RecoilRoot,
 } from 'recoil';
 
-import Menu from '../components/menu/Menu';
-
 import { Auth0Provider } from '@auth0/auth0-react';
 import { auth0ClientId, auth0Domain } from '../config';
 
