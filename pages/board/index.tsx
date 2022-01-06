@@ -1,12 +1,12 @@
-import Menu from '../components/menu/Menu'
-import useCheckAuthentication from '../hooks/useCheckAuthentication'
+import Menu from '../../components/menu/Menu'
+import useCheckAuthentication from '../../hooks/useCheckAuthentication'
 import { useState } from 'react'
-import Dialog from '../components/modal/Dialog'
-import { BoardColumn } from '../types'
-import CreateTask from '../components/CreateTask'
-import { board as boardAtom } from '../recoil/atoms'
-import useRecoilLocalStorageValue from '../hooks/useUpdateLocalStorage'
-import ColumnBoard from '../components/ColumnBoard'
+import Dialog from '../../components/modal/Dialog'
+import { BoardColumn } from '../../types'
+import CreateTask from '../../components/CreateTask'
+import { board as boardAtom } from '../../recoil/atoms'
+import useRecoilLocalStorageValue from '../../hooks/useUpdateLocalStorage'
+import ColumnBoard from '../../components/ColumnBoard'
 
 
 const HomePage = () => {
