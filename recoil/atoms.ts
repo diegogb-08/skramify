@@ -1,26 +1,32 @@
 import { atom } from 'recoil'
-import { BoardColumn } from '../types';
+import { Board } from '../types';
 
 const valueInLocalStorage = typeof window !== 'undefined' && window?.localStorage?.getItem('boardState')
-const parsedValueInLocalStorage: BoardColumn[] | null = valueInLocalStorage ? JSON.parse(valueInLocalStorage) : null
+const parsedValueInLocalStorage: Board | null = valueInLocalStorage ? JSON.parse(valueInLocalStorage) : null
 
-export const board = atom<BoardColumn[]>({
+export const board = atom<Board>({
   key: 'boardState',
-  default: parsedValueInLocalStorage || [
-    {
-      id: 'backlog',
-      description: 'Backlog',
-      tasks: []
+  default: parsedValueInLocalStorage || {
+    tasks: {
+
     },
-    {
-      id: 'inProgress',
-      description: 'In Progress',
-      tasks: []
+    columns: {
+      'backlog': {
+        id: 'backlog',
+        description: 'Backlog',
+        taskIds: []
+      },
+      'inProgress': {
+        id: 'inProgress',
+        description: 'In Progress',
+        taskIds: []
+      },
+      'done': {
+        id: 'done',
+        description: 'Done',
+        taskIds: []
+      }
     },
-    {
-      id: 'done',
-      description: 'Done',
-      tasks: []
-    }
-  ]
+    columnOrder: ['backlog', 'inProgress', 'done']
+  }
 });

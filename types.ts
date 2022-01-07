@@ -1,11 +1,21 @@
 import { Descendant } from "slate"
 
-export type BoardColumn = {
-  id: string,
-  description: string,
-  tasks: TaskCard[]
+
+export type Board = {
+  tasks: ITaskCardRecord,
+  columns: IColumnRecord,
+  columnOrder: string[]
 }
 
+export type Column = {
+  id: string,
+  description: string,
+  taskIds: string[]
+}
+
+interface IColumnRecord {
+  [key: string]: Column
+}
 
 export type TaskCard = {
   id?: string,
@@ -16,6 +26,10 @@ export type TaskCard = {
   comments?: any[],
   cardType?: CardType,
   priority?: Priority
+}
+
+interface ITaskCardRecord {
+  [key: string]: TaskCard
 }
 
 export enum CardType {
