@@ -1,7 +1,7 @@
 import { FormEvent, useEffect } from "react"
 import useForm from "../hooks/useForm"
 import useRecoilLocalStorageState from "../hooks/useRecoilLocalStorageState"
-import { BoardColumn, CardType, Priority, TaskCard } from "../types"
+import { Board, CardType, Priority, TaskCard } from "../types"
 import Discard from "./button/Discard"
 import Submit from "./button/Submit"
 import { CustomElement } from "./editor/editor.types"
@@ -11,6 +11,7 @@ import SelectForm from "./form/SelectForm"
 import { board as boardAtom } from '../recoil/atoms'
 import { cloneDeep } from "lodash"
 import useAssignTaskId from "../hooks/useAssignTaskId"
+import { pushToNormalizeData } from "../helper/normalization"
 
 export const initialEditorValue: CustomElement[] = [{
   type: 'paragraph',
@@ -38,17 +39,8 @@ const CreateTask = ({ onClose }: CreateTaskProps) => {
 
   const handleSubmit = (ev: FormEvent<HTMLFormElement>) => {
     ev.preventDefault()
-    const scrumBoard: BoardColumn[] = cloneDeep(board)
-    const newBoard = scrumBoard.map(column => {
-      const oldTasks = column.tasks
-      if (column.id === 'backlog') {
-        return {
-          ...column,
-          tasks: [...oldTasks, formState]
-        }
-      }
-      return column
-    })
+    const scrumBoard: Board = cloneDeep(board)
+    const newBoard = pushToNormalizeData({ object: scrumBoard, column: 'backlog', key: formState?.id!, item: formState })
     setBoard(newBoard)
     onClose()
   }
