@@ -12,6 +12,7 @@ import useRecoilLocalStorageState from '../../hooks/useRecoilLocalStorageState'
 import { board as boardAtom } from '../../recoil/atoms'
 import { cloneDeep } from 'lodash'
 import { Board } from '../../types'
+import { normalizedDataOnDragEnd } from '../../helper/normalization'
 
 
 const HomePage = () => {
@@ -30,59 +31,8 @@ const HomePage = () => {
   }
 
   const handleOnDragEnd = (result: DropResult, provided: ResponderProvided) => {
-    const { draggableId, source, destination } = result
     const scrumBoardState: Board = cloneDeep(board)
-
-    if (!destination ||
-      (destination.droppableId === source.droppableId && destination.index === source.index)) return
-
-    const startColumn = scrumBoardState.columns[source.droppableId]
-    const finishColumn = scrumBoardState.columns[destination.droppableId]
-    if (startColumn === finishColumn) {
-      let newTaskIds = Array.from(startColumn.taskIds)
-      newTaskIds.splice(source.index, 1)
-      newTaskIds.splice(destination.index, 0, draggableId)
-
-      const newColumn = {
-        ...startColumn,
-        taskIds: newTaskIds
-      }
-
-      const newState = {
-        ...scrumBoardState,
-        columns: {
-          ...scrumBoardState.columns,
-          [newColumn.id]: newColumn
-        }
-      }
-
-      setBoard(newState)
-      return
-    }
-
-    // Moving from one list to another
-    const startTaskIds = Array.from(startColumn.taskIds)
-    startTaskIds.splice(source.index, 1)
-    const newStartColumn = {
-      ...startColumn,
-      taskIds: startTaskIds
-    }
-
-    const finishTaskIds = Array.from(finishColumn.taskIds)
-    finishTaskIds.splice(destination.index, 0, draggableId)
-    const newFinishColumn = {
-      ...finishColumn,
-      taskIds: finishTaskIds
-    }
-
-    const newState = {
-      ...scrumBoardState,
-      columns: {
-        ...scrumBoardState.columns,
-        [startColumn.id]: newStartColumn,
-        [finishColumn.id]: newFinishColumn
-      }
-    }
+    const newState = normalizedDataOnDragEnd({ result, state: scrumBoardState })
     setBoard(newState)
   }
 
