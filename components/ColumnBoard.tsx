@@ -1,6 +1,7 @@
 import { TaskCard } from "../types"
 import CardTask from "./CardTask"
 import { Droppable } from 'react-beautiful-dnd'
+import { memo } from "react"
 
 interface ColumbnBoardProps {
   description: string
@@ -46,4 +47,4 @@ const ColumnBoard = ({ description, columnId, tasks }: ColumbnBoardProps) => {
   )
 }
 
-export default ColumnBoard
+export default memo(ColumnBoard)

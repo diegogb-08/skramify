@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { TaskCard } from "../types"
 import { Draggable } from 'react-beautiful-dnd'
+import { memo } from "react"
 
 interface CardTaskProps extends TaskCard {
   index: number
@@ -36,4 +37,4 @@ const CardTask = ({ title, cardType, comments, createdAt, description, id, prior
   )
 }
 
-export default CardTask
+export default memo(CardTask)
