@@ -26,6 +26,7 @@ const useRecoilLocalStorageState = ({ key, atom }: useRecoilLocalStorageStatePro
     }
     prevKeyRef.current = key
     window.localStorage.setItem(key, JSON.stringify(state))
+    console.debug('[localStorage udpated]:', state)
   }, [key, state])
 
   return { state, setState }
