@@ -12,6 +12,7 @@ import useRecoilLocalStorageState from '../../hooks/useRecoilLocalStorageState'
 import { board as boardAtom } from '../../recoil/atoms'
 import { cloneDeep } from 'lodash'
 import { Board } from '../../types'
+import { normalizedDataOnDragEnd } from '../../helper/normalization'
 
 
 const HomePage = () => {
@@ -30,30 +31,8 @@ const HomePage = () => {
   }
 
   const handleOnDragEnd = (result: DropResult, provided: ResponderProvided) => {
-    const { draggableId, source, destination } = result
     const scrumBoardState: Board = cloneDeep(board)
-
-    if (!destination ||
-      (destination.droppableId === source.droppableId && destination.index === source.index)) return
-
-    const column = scrumBoardState.columns[source.droppableId]
-    let newTaskIds = Array.from(column.taskIds)
-    newTaskIds.splice(source.index, 1)
-    newTaskIds.splice(destination.index, 0, draggableId)
-
-    const newColumn = {
-      ...column,
-      taskIds: newTaskIds
-    }
-
-    const newState = {
-      ...scrumBoardState,
-      columns: {
-        ...scrumBoardState.columns,
-        [newColumn.id]: newColumn
-      }
-    }
-
+    const newState = normalizedDataOnDragEnd({ result, state: scrumBoardState })
     setBoard(newState)
   }
 
