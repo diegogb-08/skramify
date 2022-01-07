@@ -36,24 +36,53 @@ const HomePage = () => {
     if (!destination ||
       (destination.droppableId === source.droppableId && destination.index === source.index)) return
 
-    const column = scrumBoardState.columns[source.droppableId]
-    let newTaskIds = Array.from(column.taskIds)
-    newTaskIds.splice(source.index, 1)
-    newTaskIds.splice(destination.index, 0, draggableId)
+    const startColumn = scrumBoardState.columns[source.droppableId]
+    const finishColumn = scrumBoardState.columns[destination.droppableId]
+    if (startColumn === finishColumn) {
+      let newTaskIds = Array.from(startColumn.taskIds)
+      newTaskIds.splice(source.index, 1)
+      newTaskIds.splice(destination.index, 0, draggableId)
 
-    const newColumn = {
-      ...column,
-      taskIds: newTaskIds
+      const newColumn = {
+        ...startColumn,
+        taskIds: newTaskIds
+      }
+
+      const newState = {
+        ...scrumBoardState,
+        columns: {
+          ...scrumBoardState.columns,
+          [newColumn.id]: newColumn
+        }
+      }
+
+      setBoard(newState)
+      return
+    }
+
+    // Moving from one list to another
+    const startTaskIds = Array.from(startColumn.taskIds)
+    startTaskIds.splice(source.index, 1)
+    const newStartColumn = {
+      ...startColumn,
+      taskIds: startTaskIds
+    }
+
+    const finishTaskIds = Array.from(finishColumn.taskIds)
+    finishTaskIds.splice(destination.index, 0, draggableId)
+    const newFinishColumn = {
+      ...finishColumn,
+      taskIds: finishTaskIds
     }
 
     const newState = {
       ...scrumBoardState,
       columns: {
         ...scrumBoardState.columns,
-        [newColumn.id]: newColumn
+        [startColumn.id]: newStartColumn,
+        [finishColumn.id]: newFinishColumn
       }
     }
-
     setBoard(newState)
   }
 
