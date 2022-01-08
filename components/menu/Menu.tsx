@@ -25,7 +25,7 @@ const Menu = ({ children, onClickCreate }: MenuProps) => {
 
           }
         </div>
-        <div className='h-full w-1/5 flex justify-between items-center p-2 text-white font-bold'>
+        <div className='h-full w-80 flex justify-between items-center p-2 text-white font-bold'>
           {
             isAuthenticated ?
               <>

@@ -7,7 +7,7 @@ import CardDetails from '../../components/TaskDetails'
 import { useRouter } from 'next/router'
 import Split from 'react-split'
 import ScrumBoard from '../../components/ScrumBoard'
-import { DragDropContext, DropResult, ResponderProvided } from 'react-beautiful-dnd'
+import { DragDropContext, DragStart, DropResult, ResponderProvided } from 'react-beautiful-dnd'
 import useRecoilLocalStorageState from '../../hooks/useRecoilLocalStorageState'
 import { board as boardAtom } from '../../recoil/atoms'
 import { cloneDeep } from 'lodash'
@@ -21,6 +21,7 @@ const HomePage = () => {
   const { taskId } = router.query
   const { state: board, setState: setBoard } = useRecoilLocalStorageState({ key: boardAtom.key, atom: boardAtom })
   const [modalIsOpen, setModalIsOpen] = useState(false)
+  const [homeIndex, setHomeIndex] = useState<null | number>(null)
 
   const handleClickCreate = () => {
     setModalIsOpen(true)
@@ -31,9 +32,16 @@ const HomePage = () => {
   }
 
   const handleOnDragEnd = (result: DropResult, provided: ResponderProvided) => {
+    setHomeIndex(null)
     const scrumBoardState: Board = cloneDeep(board)
     const newState = normalizedDataOnDragEnd({ result, state: scrumBoardState })
     setBoard(newState)
+  }
+
+  const handleOnDragStart = (initial: DragStart, provided: ResponderProvided) => {
+    const scrumBoardState: Board = cloneDeep(board)
+    const homeIndex = scrumBoardState.columnOrder.indexOf(initial.source.droppableId)
+    setHomeIndex(homeIndex)
   }
 
   return (
@@ -43,6 +51,7 @@ const HomePage = () => {
       </Dialog>
       <DragDropContext
         onDragEnd={handleOnDragEnd}
+        onDragStart={handleOnDragStart}
       >
         {
           taskId ?
@@ -59,11 +68,11 @@ const HomePage = () => {
               direction="horizontal"
               cursor="col-resize"
             >
-              <ScrumBoard />
+              <ScrumBoard homeIndex={homeIndex} />
               <CardDetails />
             </Split>
             :
-            <ScrumBoard />
+            <ScrumBoard homeIndex={homeIndex} />
         }
       </DragDropContext>
     </Menu>
