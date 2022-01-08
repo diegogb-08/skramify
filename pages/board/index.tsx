@@ -1,6 +1,6 @@
 import Menu from '../../components/menu/Menu'
 import useCheckAuthentication from '../../hooks/useCheckAuthentication'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import Dialog from '../../components/modal/Dialog'
 import CreateTask from '../../components/CreateTask'
 import CardDetails from '../../components/TaskDetails'
@@ -8,18 +8,20 @@ import { useRouter } from 'next/router'
 import Split from 'react-split'
 import ScrumBoard from '../../components/ScrumBoard'
 import { DragDropContext, DragStart, DropResult, ResponderProvided } from 'react-beautiful-dnd'
-import useRecoilLocalStorageState from '../../hooks/useRecoilLocalStorageState'
+import useLocalStorageRecoilListener from '../../hooks/useLocalStorageRecoilListener'
 import { board as boardAtom } from '../../recoil/atoms'
 import { cloneDeep } from 'lodash'
 import { Board } from '../../types'
 import { normalizedDataOnDragEnd } from '../../helper/normalization'
+import { useRecoilState } from 'recoil'
 
 
 const HomePage = () => {
   useCheckAuthentication()
+  useLocalStorageRecoilListener({ key: boardAtom.key, atom: boardAtom })
+  const [board, setBoard] = useRecoilState<Board>(boardAtom)
   const router = useRouter()
   const { taskId } = router.query
-  const { state: board, setState: setBoard } = useRecoilLocalStorageState({ key: boardAtom.key, atom: boardAtom })
   const [modalIsOpen, setModalIsOpen] = useState(false)
   const [homeIndex, setHomeIndex] = useState<null | number>(null)
 
@@ -33,13 +35,13 @@ const HomePage = () => {
 
   const handleOnDragEnd = (result: DropResult, provided: ResponderProvided) => {
     setHomeIndex(null)
-    const scrumBoardState: Board = cloneDeep(board)
+    const scrumBoardState = cloneDeep(board)
     const newState = normalizedDataOnDragEnd({ result, state: scrumBoardState })
     setBoard(newState)
   }
 
   const handleOnDragStart = (initial: DragStart, provided: ResponderProvided) => {
-    const scrumBoardState: Board = cloneDeep(board)
+    const scrumBoardState = cloneDeep(board)
     const homeIndex = scrumBoardState.columnOrder.indexOf(initial.source.droppableId)
     setHomeIndex(homeIndex)
   }

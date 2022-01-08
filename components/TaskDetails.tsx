@@ -4,13 +4,13 @@ import { useEffect, useState } from 'react'
 import { useRecoilValue } from 'recoil'
 import useForm from '../hooks/useForm'
 import { board as boardAtom } from '../recoil/atoms'
-import { TaskCard } from '../types'
+import { Board, TaskCard } from '../types'
 import NotFound from './NotFound'
 
 const TaskDetails = () => {
   const router = useRouter()
   const { taskId } = router.query
-  const scrumBoard = useRecoilValue(boardAtom)
+  const scrumBoard = useRecoilValue<Board>(boardAtom)
   const { formState: task, setFormState } = useForm({ initialFormState: {} })
 
   useEffect(() => {

@@ -1,6 +1,6 @@
 import { memo } from "react"
 import { Droppable } from "react-beautiful-dnd"
-import useRecoilLocalStorageValue from "../hooks/useUpdateLocalStorage"
+import { useRecoilValue } from "recoil"
 
 import { board as boardAtom } from '../recoil/atoms'
 import { Board, Column, TaskCard } from "../types"
@@ -10,7 +10,7 @@ interface ScrumBoardProps {
   homeIndex: null | number
 }
 const ScrumBoard = ({ homeIndex }: ScrumBoardProps) => {
-  const scrumBoard: Board = useRecoilLocalStorageValue({ key: boardAtom.key, atom: boardAtom })
+  const scrumBoard = useRecoilValue<Board>(boardAtom)
   return (
     <Droppable droppableId='all-columns' direction='horizontal' type='column'>
       {(provider, snapshot) => (
