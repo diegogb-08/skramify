@@ -34,10 +34,21 @@ interface NormalizedDataOnDragEnd {
   state: Board
 }
 export const normalizedDataOnDragEnd = ({ result, state }: NormalizedDataOnDragEnd): Board => {
-  const { draggableId, source, destination } = result
+  const { draggableId, source, destination, type } = result
 
   if (!destination ||
     (destination.droppableId === source.droppableId && destination.index === source.index)) return state
+
+  if (type === 'column') {
+    const newColumnOrderArray = Array.from(state.columnOrder)
+    newColumnOrderArray.splice(source.index, 1)
+    newColumnOrderArray.splice(destination.index, 0, draggableId)
+    const newState = {
+      ...state,
+      columnOrder: newColumnOrderArray
+    }
+    return newState;
+  }
 
   const startColumn = state.columns[source.droppableId]
   const finishColumn = state.columns[destination.droppableId]
