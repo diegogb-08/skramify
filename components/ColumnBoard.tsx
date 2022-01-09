@@ -14,7 +14,7 @@ interface ColumbnBoardProps {
 const ColumnBoard = ({ description, columnId, index, tasks, isDropDisabled }: ColumbnBoardProps) => {
   return (
     <Draggable draggableId={columnId} index={index}>
-      {(provider, snapshot) => (
+      {(provider) => (
         <section className={`w-full flex flex-col font-bold p-2 mx-2 rounded-t`}
           {...provider.draggableProps}
           ref={provider.innerRef}
