@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { TaskCard } from "../types"
+import { CardType, TaskCard } from "../types"
 import { Draggable } from 'react-beautiful-dnd'
 import { memo } from "react"
 
@@ -8,6 +8,9 @@ interface CardTaskProps extends TaskCard {
 }
 
 const CardTask = ({ title, cardType, comments, createdAt, description, id, priority, dueDate, index }: CardTaskProps) => {
+  const isABug = cardType === CardType.bug
+  const isAnEpic = cardType === CardType.epic
+  const cardTypeBackground = isAnEpic ? 'bg-yellow-300' : isABug ? 'bg-red-500' : 'bg-green-500'
 
   return (
     <Draggable draggableId={id!} index={index} >
@@ -24,13 +27,13 @@ const CardTask = ({ title, cardType, comments, createdAt, description, id, prior
             className='w-full flex flex-col justify-between'
             {...provider.dragHandleProps}
           >
-            <p>{title}</p>
+            <p className='text-xl font-semibold py-4'>{title}</p>
             <div className='w-full flex flex-row justify-between' >
-              <p>{cardType}</p>
+              <p className={`${cardTypeBackground} px-2 py-1 rounded-md font-bold`}>{cardType}</p>
               <p>{priority}</p>
             </div>
+            <p className='text-right'>{dueDate}</p>
           </div>
-          <p>{dueDate}</p>
         </div>
       )}
     </Draggable>
