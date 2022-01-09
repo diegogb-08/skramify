@@ -6,16 +6,16 @@
  */
 
 import { useEffect, useRef } from "react"
-import { RecoilState, useRecoilState } from "recoil"
+import { RecoilState, useRecoilValue } from "recoil"
 
-export interface useRecoilLocalStorageStateProps {
+export interface useLocalStorageRecoilListenerProps {
   key: string
   atom: RecoilState<any>
 }
 
-const useRecoilLocalStorageState = ({ key, atom }: useRecoilLocalStorageStateProps) => {
+const useLocalStorageRecoilListener = ({ key, atom }: useLocalStorageRecoilListenerProps) => {
 
-  const [state, setState] = useRecoilState(atom)
+  const state = useRecoilValue(atom)
 
   const prevKeyRef = useRef(key)
 
@@ -28,8 +28,6 @@ const useRecoilLocalStorageState = ({ key, atom }: useRecoilLocalStorageStatePro
     window.localStorage.setItem(key, JSON.stringify(state))
     console.debug('[localStorage udpated]:', state)
   }, [key, state])
-
-  return { state, setState }
 }
 
-export default useRecoilLocalStorageState
+export default useLocalStorageRecoilListener
